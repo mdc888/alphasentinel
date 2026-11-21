@@ -9,8 +9,12 @@ from openai import OpenAI
 
 # 1. טעינת מפתח ה-API
 load_dotenv()
-client = OpenAI()
+api_key = os.environ.get("OPENAI_API_KEY", "").strip()
+client = OpenAI(api_key=api_key, timeout=30.0)
 
+'''
+load_dotenv()
+client = OpenAI()'''
 # 2. הגדרת מבני התשובה (טפסים) לכל סוכן
 class AnalystReport(BaseModel):
     sentiment: str      # Bullish, Bearish, or Neutral
@@ -43,7 +47,9 @@ def calculate_indicators(closes: list[float]) -> dict:
 
 def get_asset_technicals(symbol: str) -> tuple[str, dict]:
     if "/" in symbol:
-        exchange = ccxt.coinbase()
+        exchange = ccxt.kraken()
+        print(exchange.fetch_ticker(symbol))
+        '''exchange = ccxt.coinbase()'''
         ohlcv = exchange.fetch_ohlcv(symbol, timeframe="1h", limit=60)
         closes = [candle[4] for candle in ohlcv]
         return "Crypto (1H Chart)", calculate_indicators(closes)
