@@ -170,5 +170,11 @@ with gr.Blocks(title="AlphaSentinel Multi-Agent") as demo:
         outputs=[price_out, tech_agent_out, news_agent_out, decision_out, risk_out, reason_out]
     )
 
-if __name__ == "__main__":
+    if __name__ == "__main__":
+        port = int(os.environ.get("PORT", 7860))
+        demo.launch(server_name="0.0.0.0", server_port=port)
+
+
+'''if __name__ == "__main__":
     demo.launch()
+    #demo.launch(share=True)'''
