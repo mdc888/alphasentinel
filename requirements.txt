@@ -1,0 +1,7 @@
+openai
+ccxt
+yfinance
+pandas
+gradio
+pydantic
+python-dotenv
